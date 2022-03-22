@@ -1,6 +1,6 @@
 require('dotenv').config();
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -12,16 +12,25 @@ mongoose.connect(
   }
 );
 
-
+/** 2) Create a 'Person' Model */
 const personSchema = new Schema({
   name: { type: String, required: true },
   age: Number,
   favoriteFoods: [String]
 });
+
+/** 3) Create and Save a Person */
 const Person = mongoose.model("Person", personSchema);
 
+const createAndSavePerson = (done) => {
+  const rajon = new Person({name: "Rajon", age: 42, favoriteFoods: ["rice", "fish", "burger"]});
 
- 
+  rajon.save((err, data) => {
+    if (err) return console.error(err);
+    done(null, data)
+  });
+};
+
 
 
 
@@ -77,6 +86,7 @@ const queryChain = (done) => {
 
 exports.PersonModel = Person;
 exports.personSchema = personSchema;
+exports.createAndSavePerson = createAndSavePerson;
 exports.findPeopleByName = findPeopleByName;
 exports.findOneByFood = findOneByFood;
 exports.findPersonById = findPersonById;
