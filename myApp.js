@@ -45,15 +45,19 @@ const createManyPeople = (arrayOfPeople, done) => {
 };
 
 /** 5) Use `Model.find()` */
-const findPeopleByName = function(personName, done) {
+const findPeopleByName = (personName, done) => {
   Person.find({name: personName}, (err, personFound) => {
     if (err) return console.log(err);
     done(null, personFound);
   });
 };
 
+/** 6) Use `Model.findOne()` */
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({favoriteFoods: food}, (err, data) => {
+    if (err) return console.log(err);
+    done(null, data);
+  });
 };
 
 const findPersonById = (personId, done) => {
