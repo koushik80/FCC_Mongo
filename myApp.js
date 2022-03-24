@@ -97,17 +97,21 @@ const removeById = (personId, done) => {
     }
   );
 };
-
+/** 11) Delete Many Documents with `Model.remove()` */
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
-
-  done(null /*, data*/);
+  Person.deleteMany({name: nameToRemove}, (err, data) => {
+    if(err) return console.log(err);
+    done(null, data);
+  });
 };
 
+/** 12) Chain Search Query Helpers to Narrow Search Results */
 const queryChain = (done) => {
   const foodToSearch = "burrito";
-
-  done(null /*, data*/);
+Person.find({favoriteFoods: foodToSearch}).sort("name").limit(2).select(["name", "favoriteFoods"]).exec((err, data) => {
+ done(err, data);
+  })
 };
 
 /** **Well Done !!**
@@ -117,14 +121,12 @@ const queryChain = (done) => {
 //----- **DO NOT EDIT BELOW THIS LINE** ----------------------------------
 
 exports.PersonModel = Person;
-exports.personSchema = personSchema;
 exports.createAndSavePerson = createAndSavePerson;
 exports.findPeopleByName = findPeopleByName;
 exports.findOneByFood = findOneByFood;
 exports.findPersonById = findPersonById;
 exports.findEditThenSave = findEditThenSave;
 exports.findAndUpdate = findAndUpdate;
-exports.arrayOfPeople = arrayOfPeople;
 exports.createManyPeople = createManyPeople;
 exports.removeById = removeById;
 exports.removeManyPeople = removeManyPeople;
